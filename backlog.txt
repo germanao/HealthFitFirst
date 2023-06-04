@@ -1,0 +1,3 @@
+Adicionar opção:
+	Inserir calorias negativas (Insere normal e reduz do valor diário)
+	Inserir calorias por outra opção (Por refeição, e colheres de sopa)
