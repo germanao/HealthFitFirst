@@ -15,26 +15,15 @@ import moment from 'moment';
 import { FlatList, Text } from 'react-native';
 import ItemList from '../../components/ItemList';
 import { FAB } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, ParamListBase } from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { useDataLocal } from '../../hooks/data';
 
 const Home: React.FC = () => {
 
-  const navigation = useNavigation()
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
-  const data = [
-    {
-      id: "1",
-      name: "Arroz",
-      kcal: 100,
-      date: moment(),
-    },
-    {
-      id: "2",
-      name: "Feijao",
-      kcal: 55,
-      date: moment(),
-    }
-  ]
+  const { currentKcal, handleChangeData, currentList } = useDataLocal()
 
   const handleNewItem = () => {
     navigation.navigate("NewItem")
@@ -60,7 +49,7 @@ const Home: React.FC = () => {
           disabledDateNameStyle={{ color: "grey" }}
           disabledDateNumberStyle={{ color: "grey" }}
           iconContainer={{ flex: 0.1 }}
-          onDateSelected={(date) => console.log(date)}
+          onDateSelected={handleChangeData}
           startingDate={moment().subtract(3, "days")}
           selectedDate={moment()}
           scrollerPaging
@@ -69,13 +58,13 @@ const Home: React.FC = () => {
         />
         <HeaderTitle>Consumido no dia</HeaderTitle>
         <HeaderContainerHighlight>
-          <HeaderTextCounterHighlight>0</HeaderTextCounterHighlight>
+          <HeaderTextCounterHighlight>{currentKcal}</HeaderTextCounterHighlight>
           <HeaderTextHighlight>/kcal</HeaderTextHighlight>
         </HeaderContainerHighlight>
       </HeaderContainer>
       <BodyContainer>
         <FlatList
-          data={data}
+          data={currentList}
           keyExtractor={item => item.id}
           renderItem={({item}) => <ItemList item={item}/>}
         />

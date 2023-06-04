@@ -5,15 +5,27 @@ import { generateUniqueId } from "../../helpers";
 import { useNavigation } from "@react-navigation/native";
 
 import { Container, FormContainer, ButtonContainer } from "./styles";
+import { useDataLocal } from "../../hooks/data";
 
 const NewItem = () => {
+  const { addItem, currentDate } = useDataLocal();
+  
   const navigation = useNavigation();
 
-  const [name, setName] = useState("");
-  const [kcal, setKcal] = useState("");
+  const [name, setName] = useState<string>();
+  const [kcal, setKcal] = useState<string>();
 
   const handleOnSave = () => {
-    console.log(name, kcal)
+    if(!name || !kcal) return
+
+    addItem({
+      id: generateUniqueId(),
+      name: name,
+      kcal: Number(kcal),
+      date: currentDate
+    })
+
+    navigation.goBack()
   };
 
   return (
