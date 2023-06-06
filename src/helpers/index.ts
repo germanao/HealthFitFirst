@@ -13,12 +13,12 @@ export const filterIsToday = (date: MomentInput, currentData: MomentInput): bool
 
 export const setLocalStorage = async (list: Item[]) => {
     const jsonValue = JSON.stringify(list)
-    await AsyncStorage.setItem('@listITems', jsonValue)
+    await AsyncStorage.setItem('@listITems3', jsonValue)
     return;
 }
 
 export const getLocalStorage = async () => {
-    const jsonValue = await AsyncStorage.getItem('@listITems')
+    const jsonValue = await AsyncStorage.getItem('@listITems3')
     return jsonValue != null ? JSON.parse(jsonValue) : null;
 }
   

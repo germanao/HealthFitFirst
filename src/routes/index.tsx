@@ -11,7 +11,7 @@ const Routes: React.FC = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator 
-                initialRouteName='Home'
+                initialRouteName="Home"
                 screenOptions={{
                     headerStyle: {
                         backgroundColor: '#1E3BA1'

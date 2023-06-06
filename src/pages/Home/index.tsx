@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import CalendarStrip from 'react-native-calendar-strip';
 import { Container , 
@@ -8,37 +8,25 @@ import { Container ,
          HeaderTitle,
          HeaderTextHighlight,
          BodyContainer
-        
         } from './styles';
 import { Feather } from '@expo/vector-icons';
 import moment from 'moment';
-import { FlatList, Text } from 'react-native';
+import { FlatList } from 'react-native';
 import ItemList from '../../components/ItemList';
 import { FAB } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, ParamListBase } from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { useDataLocal } from '../../hooks/data';
 
 const Home: React.FC = () => {
 
-  const navigation = useNavigation()
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
-  const data = [
-    {
-      id: "1",
-      name: "Arroz",
-      kcal: 100,
-      date: moment(),
-    },
-    {
-      id: "2",
-      name: "Feijao",
-      kcal: 55,
-      date: moment(),
-    }
-  ]
+  const { currentKcal, handleChangeData, currentList, currentDate } = useDataLocal()
 
-  const handleNewItem = () => {
+  const handleNewItem = useCallback(() => {
     navigation.navigate("NewItem")
-  }
+  }, [])
 
   return (
     <Container>
@@ -60,22 +48,22 @@ const Home: React.FC = () => {
           disabledDateNameStyle={{ color: "grey" }}
           disabledDateNumberStyle={{ color: "grey" }}
           iconContainer={{ flex: 0.1 }}
-          onDateSelected={(date) => console.log(date)}
-          startingDate={moment().subtract(3, "days")}
-          selectedDate={moment()}
+          onDateSelected={handleChangeData}
+          startingDate={moment(currentDate).subtract(3, "days")}
+          selectedDate={moment(currentDate)}
           scrollerPaging
           iconLeft={require("../../assets/img/arrow-left.png")}
           iconRight={require("../../assets/img/arrow-right.png")}
         />
         <HeaderTitle>Consumido no dia</HeaderTitle>
         <HeaderContainerHighlight>
-          <HeaderTextCounterHighlight>0</HeaderTextCounterHighlight>
+          <HeaderTextCounterHighlight>{currentKcal}</HeaderTextCounterHighlight>
           <HeaderTextHighlight>/kcal</HeaderTextHighlight>
         </HeaderContainerHighlight>
       </HeaderContainer>
       <BodyContainer>
         <FlatList
-          data={data}
+          data={currentList}
           keyExtractor={item => item.id}
           renderItem={({item}) => <ItemList item={item}/>}
         />
