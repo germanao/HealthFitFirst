@@ -17,13 +17,18 @@ const DataLocalContext = createContext<DataProviderData>({} as DataProviderData)
     const [currentList, setCurrentList] = useState([] as Item[])
     const [listAllItens, setListAllItens] = useState([] as Item[])
 
+    console.log(currentDate)
+    useEffect(() => {
+       getStorageData()
+    }, [])
+
     useEffect(() => {
         updateCurrentDay();
     }, [currentDate, listAllItens])
 
     useEffect(() => {
-        getStorageData()
-    }, [])
+        setLocalStorage(listAllItens) //This isn't performant, but it's ok for now
+    }, [listAllItens])
 
     const getStorageData = async () => {
         const res = await getLocalStorage()
@@ -31,11 +36,10 @@ const DataLocalContext = createContext<DataProviderData>({} as DataProviderData)
     }
 
     const addItem = async (item: Item) => {
-        setListAllItens([...currentList, item])
-        await setLocalStorage([...currentList, item])
-        updateCurrentDay()
-        setCurrentDate(moment())
-    }
+        setListAllItens(state => [...state, item]);
+
+        updateCurrentDay();
+      };    
 
     const updateCurrentDay = () => {
         if(listAllItens){

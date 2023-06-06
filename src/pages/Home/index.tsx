@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import CalendarStrip from 'react-native-calendar-strip';
 import { Container , 
@@ -8,11 +8,10 @@ import { Container ,
          HeaderTitle,
          HeaderTextHighlight,
          BodyContainer
-        
         } from './styles';
 import { Feather } from '@expo/vector-icons';
 import moment from 'moment';
-import { FlatList, Text } from 'react-native';
+import { FlatList } from 'react-native';
 import ItemList from '../../components/ItemList';
 import { FAB } from 'react-native-elements';
 import { useNavigation, ParamListBase } from '@react-navigation/native';
@@ -23,11 +22,11 @@ const Home: React.FC = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
-  const { currentKcal, handleChangeData, currentList } = useDataLocal()
+  const { currentKcal, handleChangeData, currentList, currentDate } = useDataLocal()
 
-  const handleNewItem = () => {
+  const handleNewItem = useCallback(() => {
     navigation.navigate("NewItem")
-  }
+  }, [])
 
   return (
     <Container>
@@ -50,8 +49,8 @@ const Home: React.FC = () => {
           disabledDateNumberStyle={{ color: "grey" }}
           iconContainer={{ flex: 0.1 }}
           onDateSelected={handleChangeData}
-          startingDate={moment().subtract(3, "days")}
-          selectedDate={moment()}
+          startingDate={moment(currentDate).subtract(3, "days")}
+          selectedDate={moment(currentDate)}
           scrollerPaging
           iconLeft={require("../../assets/img/arrow-left.png")}
           iconRight={require("../../assets/img/arrow-right.png")}

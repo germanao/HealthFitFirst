@@ -15,10 +15,10 @@ const NewItem = () => {
   const [name, setName] = useState<string>();
   const [kcal, setKcal] = useState<string>();
 
-  const handleOnSave = () => {
+  const handleOnSave = async () => {
     if(!name || !kcal) return
 
-    addItem({
+    await addItem({
       id: generateUniqueId(),
       name: name,
       kcal: Number(kcal),
