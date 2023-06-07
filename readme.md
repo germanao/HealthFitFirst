@@ -1,6 +1,8 @@
 # Health Fit First
 
-![App Screenshot](/assets/logo.png)
+<div style="text-align:center">
+  <img src="/assets/logo.png" alt="App Screenshot">
+</div>
 
 The Health Fit First is a mobile application built with React Native that allows users to easily track the calories they consume and burn throughout the day. It aims to help individuals maintain a healthy lifestyle and achieve their fitness goals by providing a seamless and intuitive calorie tracking experience.
 
