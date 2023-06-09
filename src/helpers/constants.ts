@@ -3,5 +3,7 @@ export const Colors = {
     secondary: '#FFFFFF',
     tertiary: '#EFEFEF',
     quaternary: '#000000',
+    red: '#910f0f',
+    redDark: '#590606'
 }
 

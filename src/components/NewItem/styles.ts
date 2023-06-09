@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { Colors } from '../../helpers/constants'
+import { Dimensions } from 'react-native'
 
 export const Container = styled.View`
     flex: 1; 
@@ -9,6 +10,7 @@ export const Container = styled.View`
 
 export const FormContainer = styled.View`
     margin-top: 60px;
+    min-height: ${Dimensions.get('window').height * 0.5}px; //Issue https://github.com/jeremybarbet/react-native-modalize/issues/455
 `
 
 export const ButtonContainer = styled.View`

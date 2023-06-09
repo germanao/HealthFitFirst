@@ -1,20 +1,28 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Input } from "react-native-elements";
 import { generateUniqueId } from "../../helpers";
 import { useNavigation } from "@react-navigation/native";
 
 import { Container, FormContainer, ButtonContainer, ItensTitle, Divider } from "./styles";
 import { useDataLocal } from "../../hooks/data";
-import { FlatList } from "react-native";
+import { FlatList, TouchableOpacity, Text, View } from "react-native";
 import ItemList from "../ItemList";
 import { Colors } from "../../helpers/constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import { Modalize } from 'react-native-modalize';
 
 const NewItem = () => {
   const { addItem, currentDate, currentList } = useDataLocal();
   
   const navigation = useNavigation();
+
+  const modalizeRef = useRef<Modalize>(null);
+
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
 
   const [name, setName] = useState<string>();
   const [kcal, setKcal] = useState<string>();
@@ -32,47 +40,62 @@ const NewItem = () => {
     // navigation.goBack()
   };
 
+
   return (
-    <Container>
-      {/* <FormContainer>
-        <Input
+    <>
+      {/* <TouchableOpacity onPress={onOpen}>
+        <Text>Open the modal</Text>
+      </TouchableOpacity> */}
+
+      <Modalize
+        ref={modalizeRef}
+        adjustToContentHeight
+      >
+        <FormContainer>
+          <Input
           label="Nome"
           value={name}
           onChangeText={setName}
           placeholder="Descrição"
-        />
-        <Input
+          />
+          <Input
           label="kcal"
           value={kcal}
           onChangeText={setKcal}
           placeholder="somente números"
-        />
-      </FormContainer> */}
-      <ButtonContainer>
+          />
+        </FormContainer>
         <Button title="Adicionar registro" onPress={handleOnSave} />
-      </ButtonContainer>
+      </Modalize>
 
-      <Divider />
-
-      <ItensTitle>Itens do dia</ItensTitle>
-      <FlatList
-          data={currentList}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => 
+      <Container>
+        <ItensTitle>Itens do dia</ItensTitle>
+        <FlatList
+            data={currentList}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => 
             <ItemList 
-              item={item} 
-              options={[<MaterialCommunityIcons
-                        name="pencil-outline"
-                        size={30}
-                        color={Colors.primary}
-                      />, <MaterialCommunityIcons
-                      name="pencil-outline"
-                      size={30}
-                      color={Colors.primary}
-                    />]}
-            />}
-        />
-    </Container>
+            item={item} 
+            options={[<MaterialCommunityIcons
+              name="delete-outline"
+              size={30}
+              color={Colors.red}
+              />, <MaterialCommunityIcons
+              name="pencil-outline"
+              size={30}
+              color={Colors.primary}
+              />]}
+              />}
+              />
+        <Divider />
+
+        
+        <ButtonContainer>
+          {/* <Button title="Adicionar registro" onPress={handleOnSave} /> */}
+          <Button title="Adicionar registro" onPress={onOpen} />
+        </ButtonContainer>
+      </Container>
+    </>
   );
 };
 
