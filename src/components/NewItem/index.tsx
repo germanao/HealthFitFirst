@@ -1,14 +1,18 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Input } from "react-native-elements";
 import { generateUniqueId } from "../../helpers";
 import { useNavigation } from "@react-navigation/native";
 
-import { Container, FormContainer, ButtonContainer } from "./styles";
+import { Container, FormContainer, ButtonContainer, ItensTitle, Divider } from "./styles";
 import { useDataLocal } from "../../hooks/data";
+import { FlatList } from "react-native";
+import ItemList from "../ItemList";
+import { Colors } from "../../helpers/constants";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const NewItem = () => {
-  const { addItem, currentDate } = useDataLocal();
+  const { addItem, currentDate, currentList } = useDataLocal();
   
   const navigation = useNavigation();
 
@@ -25,12 +29,12 @@ const NewItem = () => {
       date: currentDate
     })
 
-    navigation.goBack()
+    // navigation.goBack()
   };
 
   return (
     <Container>
-      <FormContainer>
+      {/* <FormContainer>
         <Input
           label="Nome"
           value={name}
@@ -43,10 +47,31 @@ const NewItem = () => {
           onChangeText={setKcal}
           placeholder="somente números"
         />
-      </FormContainer>
+      </FormContainer> */}
       <ButtonContainer>
-        <Button title="Salvar" onPress={handleOnSave} />
+        <Button title="Adicionar registro" onPress={handleOnSave} />
       </ButtonContainer>
+
+      <Divider />
+
+      <ItensTitle>Itens do dia</ItensTitle>
+      <FlatList
+          data={currentList}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => 
+            <ItemList 
+              item={item} 
+              options={[<MaterialCommunityIcons
+                        name="pencil-outline"
+                        size={30}
+                        color={Colors.primary}
+                      />, <MaterialCommunityIcons
+                      name="pencil-outline"
+                      size={30}
+                      color={Colors.primary}
+                    />]}
+            />}
+        />
     </Container>
   );
 };

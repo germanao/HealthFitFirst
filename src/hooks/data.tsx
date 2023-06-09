@@ -17,7 +17,6 @@ const DataLocalContext = createContext<DataProviderData>({} as DataProviderData)
     const [currentList, setCurrentList] = useState([] as Item[])
     const [listAllItens, setListAllItens] = useState([] as Item[])
 
-    console.log(currentDate)
     useEffect(() => {
        getStorageData()
     }, [])

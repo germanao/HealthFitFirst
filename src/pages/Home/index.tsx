@@ -17,6 +17,7 @@ import { FAB } from 'react-native-elements';
 import { useNavigation, ParamListBase } from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import { useDataLocal } from '../../hooks/data';
+import { Colors } from '../../helpers/constants';
 
 const Home: React.FC = () => {
 
@@ -71,7 +72,7 @@ const Home: React.FC = () => {
           icon={<Feather name="plus" size={24} color="white" />}
           visible
           placement="right"
-          color='#1E3BA1'
+          color={Colors.primary}
           style={{marginRight: 16, right: 20, bottom: 20}}
           onPress={handleNewItem}
         />

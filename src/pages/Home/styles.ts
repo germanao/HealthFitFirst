@@ -1,8 +1,9 @@
 import styled from 'styled-components/native';
+import { Colors } from '../../helpers/constants';
 
 export const Container = styled.View`
     flex: 1;
-    background-color: #1E3BA1;
+    background-color: ${Colors.primary};
     padding-top: 32px;
 
     position: relative;
@@ -11,7 +12,7 @@ export const Container = styled.View`
 export const HeaderContainer = styled.View`
     flex: 1;
     max-height: 240px;
-    background-color: #1E3BA1;
+    background-color: ${Colors.primary};
     align-content: center;
 `
 

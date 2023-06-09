@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from '../pages/Home'
 import NewItem from '../components/NewItem'
+import { Colors } from '../helpers/constants'
 
 const Stack = createStackNavigator()
 
@@ -14,7 +15,7 @@ const Routes: React.FC = () => {
                 initialRouteName="Home"
                 screenOptions={{
                     headerStyle: {
-                        backgroundColor: '#1E3BA1'
+                        backgroundColor: Colors.primary
                     },
                     headerTintColor: '#fff',
                     headerTitleStyle: {
