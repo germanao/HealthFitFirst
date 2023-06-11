@@ -1,7 +1,7 @@
 import moment, {MomentInput} from 'moment';
 import React, {createContext, useContext, useState, useEffect} from 'react';
-import { DataProviderData, Item } from '../types';
-import { filterIsToday, getLocalStorage, setLocalStorage } from '../helpers';
+import { DataProviderData, Item, ItemData } from '../types';
+import { filterIsToday, generateUniqueId, getLocalStorage, setLocalStorage } from '../helpers';
 
 interface DataLocalProviderProps {
     children: React.ReactNode;
@@ -34,8 +34,22 @@ const DataLocalContext = createContext<DataProviderData>({} as DataProviderData)
         setListAllItens(res)
     }
 
-    const addItem = (item: Item) => {
-        setListAllItens(state => [...state, item]);
+    const addItem = (item: ItemData) => {
+        const newItem: Item = {
+            id: item?.id || generateUniqueId(),
+            name : item.name,
+            kcal: item.kcal,
+            date: item?.date || currentDate
+        }
+
+        if(!item?.id){
+            setListAllItens(state => [...state, newItem]);
+        }else{
+            const index = listAllItens.findIndex(item => item.id === newItem.id)
+            const newList = [...listAllItens]
+            newList[index] = newItem
+            setListAllItens(newList);
+        }
 
         updateCurrentDay();
       };    
@@ -55,7 +69,7 @@ const DataLocalContext = createContext<DataProviderData>({} as DataProviderData)
     const updateCurrentDay = () => {
         if(listAllItens){
             const filteredList = listAllItens.filter(item => filterIsToday(item.date, currentDate))
-
+            console.log(filteredList)
             const countKcal = filteredList.reduce((acc, item) => {
                 return acc + item.kcal
             },0)

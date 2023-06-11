@@ -6,15 +6,22 @@ import { validationSchema } from './validationSchema';
 import { CalorieItemData } from './type';
 import { Input } from 'react-native-elements';
 import NumericInput from '../NumericInput';
+import { Item } from '../../../types';
 
 type CalorieItemFormProps = {
   onSubmit: (data: CalorieItemData) => void;
+  defaultValues?: Item;
 };
 
-const CalorieItemForm: React.FC<CalorieItemFormProps> = ({ onSubmit }) => {
+const CalorieItemForm: React.FC<CalorieItemFormProps> = ({ onSubmit, defaultValues }) => {
 
   const { control, handleSubmit, formState: { errors } } = useForm<CalorieItemData>({
     resolver: yupResolver(validationSchema),
+    defaultValues: {
+      id: defaultValues?.id,
+      description: defaultValues?.name,
+      amount: defaultValues?.kcal?.toString(),
+    }
   });
 
   return (
@@ -36,6 +43,7 @@ const CalorieItemForm: React.FC<CalorieItemFormProps> = ({ onSubmit }) => {
           </View>
         )}
       />
+      <View style={{ height: 20 }} />
 
       <Controller
         control={control}
@@ -54,7 +62,7 @@ const CalorieItemForm: React.FC<CalorieItemFormProps> = ({ onSubmit }) => {
           </View>
         )}
       />
-
+      <View style={{ height: 20 }} />
       <Button title="Adicionar item" onPress={handleSubmit(onSubmit)} />
     </View>
   );

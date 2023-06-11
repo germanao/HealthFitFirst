@@ -14,11 +14,12 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Modalize } from 'react-native-modalize';
 import CalorieItemForm from "../Form/CalorieItem";
 import { CalorieItemData } from "../Form/CalorieItem/type";
+import { Item } from "../../types";
 
 const ItemMaintenance = () => {
   const { addItem, removeItem, updateItem, currentDate, currentList } = useDataLocal();
   
-  const navigation = useNavigation();
+  const [itemToUpdate, setItemToUpdate] = useState<Item>({} as Item);
 
   const modalizeRef = useRef<Modalize>(null);
 
@@ -30,16 +31,22 @@ const ItemMaintenance = () => {
     modalizeRef.current?.close();
   };
 
-  const handleOnSave = async (data: CalorieItemData) => {
+  const handleOnSave = (data: CalorieItemData) => {
 
-    addItem({
-      id: generateUniqueId(),
-      name: data.description,
-      kcal: Number(data.amount),
-      date: currentDate
+    addItem({ id: data?.id,
+              name: data.description,
+              kcal: Number(data.amount),
+              date: data?.date
     })
 
     onClose();
+  };
+
+  const handleUpdateItem = (item: Item) => {
+    onOpen();
+    setItemToUpdate(item)
+    console.log(item)
+    // updateItem(item);
   };
 
   return (
@@ -51,11 +58,7 @@ const ItemMaintenance = () => {
         scrollViewProps={{ keyboardShouldPersistTaps: "handled" }}
       >
         <FormContainer>
-          <CalorieItemForm onSubmit={handleOnSave}/>
-
-          <ButtonContainer>
-            <Button title="Adicionar registro" onPress={() => null} />
-          </ButtonContainer>
+          <CalorieItemForm onSubmit={handleOnSave} defaultValues={itemToUpdate}/>
         </FormContainer>
       </Modalize>
 
@@ -76,7 +79,7 @@ const ItemMaintenance = () => {
               />
             </TouchableOpacity>, 
             
-            <TouchableOpacity onPress={() => console.log("delete")}>
+            <TouchableOpacity onPress={() => handleUpdateItem(item)}>
             <MaterialCommunityIcons
               name="pencil-outline"
               size={30}
@@ -90,7 +93,7 @@ const ItemMaintenance = () => {
 
         
         <ButtonContainer>
-          <Button title="Adicionar registro" onPress={onOpen} />
+          <Button title="Adicionar calorias ingeridas" onPress={onOpen} />
         </ButtonContainer>
       </Container>
     </>
