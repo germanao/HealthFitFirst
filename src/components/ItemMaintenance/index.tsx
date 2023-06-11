@@ -12,6 +12,8 @@ import { Colors } from "../../helpers/constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Modalize } from 'react-native-modalize';
+import CalorieItemForm from "../Form/CalorieItem";
+import { CalorieItemData } from "../Form/CalorieItem/type";
 
 const ItemMaintenance = () => {
   const { addItem, removeItem, updateItem, currentDate, currentList } = useDataLocal();
@@ -28,16 +30,12 @@ const ItemMaintenance = () => {
     modalizeRef.current?.close();
   };
 
-  const [name, setName] = useState<string>();
-  const [kcal, setKcal] = useState<string>();
-
-  const handleOnSave = async () => {
-    if(!name || !kcal) return
+  const handleOnSave = async (data: CalorieItemData) => {
 
     addItem({
       id: generateUniqueId(),
-      name: name,
-      kcal: Number(kcal),
+      name: data.description,
+      kcal: Number(data.amount),
       date: currentDate
     })
 
@@ -53,22 +51,10 @@ const ItemMaintenance = () => {
         scrollViewProps={{ keyboardShouldPersistTaps: "handled" }}
       >
         <FormContainer>
-          <Input
-          label="Nome"
-          value={name}
-          onChangeText={setName}
-          placeholder="Descrição"
-          />
-          <Input
-          label="kcal"
-          value={kcal}
-          onChangeText={setKcal}
-          placeholder="somente números"
-          />
-
+          <CalorieItemForm onSubmit={handleOnSave}/>
 
           <ButtonContainer>
-            <Button title="Adicionar registro" onPress={handleOnSave} />
+            <Button title="Adicionar registro" onPress={() => null} />
           </ButtonContainer>
         </FormContainer>
       </Modalize>
@@ -104,7 +90,6 @@ const ItemMaintenance = () => {
 
         
         <ButtonContainer>
-          {/* <Button title="Adicionar registro" onPress={handleOnSave} /> */}
           <Button title="Adicionar registro" onPress={onOpen} />
         </ButtonContainer>
       </Container>
