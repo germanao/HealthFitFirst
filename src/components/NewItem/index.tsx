@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { Container, FormContainer, ButtonContainer, ItensTitle, Divider } from "./styles";
 import { useDataLocal } from "../../hooks/data";
-import { FlatList, TouchableOpacity, Text, View } from "react-native";
+import { FlatList, TouchableOpacity, Text, View, ScrollView } from "react-native";
 import ItemList from "../ItemList";
 import { Colors } from "../../helpers/constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -24,32 +24,33 @@ const NewItem = () => {
     modalizeRef.current?.open();
   };
 
+  const onClose = () => {
+    modalizeRef.current?.close();
+  };
+
   const [name, setName] = useState<string>();
   const [kcal, setKcal] = useState<string>();
 
   const handleOnSave = async () => {
     if(!name || !kcal) return
 
-    await addItem({
+    addItem({
       id: generateUniqueId(),
       name: name,
       kcal: Number(kcal),
       date: currentDate
     })
 
-    // navigation.goBack()
+    onClose();
   };
-
 
   return (
     <>
-      {/* <TouchableOpacity onPress={onOpen}>
-        <Text>Open the modal</Text>
-      </TouchableOpacity> */}
-
       <Modalize
         ref={modalizeRef}
-        adjustToContentHeight
+        disableScrollIfPossible={false}
+        adjustToContentHeight={true} //Issue https://github.com/jeremybarbet/react-native-modalize/issues/455
+        scrollViewProps={{ keyboardShouldPersistTaps: "handled" }}
       >
         <FormContainer>
           <Input
@@ -64,8 +65,12 @@ const NewItem = () => {
           onChangeText={setKcal}
           placeholder="somente números"
           />
+
+
+          <ButtonContainer>
+            <Button title="Adicionar registro" onPress={handleOnSave} />
+          </ButtonContainer>
         </FormContainer>
-        <Button title="Adicionar registro" onPress={handleOnSave} />
       </Modalize>
 
       <Container>
@@ -76,15 +81,23 @@ const NewItem = () => {
             renderItem={({item}) => 
             <ItemList 
             item={item} 
-            options={[<MaterialCommunityIcons
+            options={[
+            <TouchableOpacity onPress={() => console.log("delete")}>
+            <MaterialCommunityIcons
               name="delete-outline"
               size={30}
               color={Colors.red}
-              />, <MaterialCommunityIcons
+              />
+            </TouchableOpacity>, 
+            
+            <TouchableOpacity onPress={() => console.log("delete")}>
+            <MaterialCommunityIcons
               name="pencil-outline"
               size={30}
               color={Colors.primary}
-              />]}
+              />
+            </TouchableOpacity>
+              ]}
               />}
               />
         <Divider />

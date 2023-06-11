@@ -34,7 +34,7 @@ const DataLocalContext = createContext<DataProviderData>({} as DataProviderData)
         setListAllItens(res)
     }
 
-    const addItem = async (item: Item) => {
+    const addItem = (item: Item) => {
         setListAllItens(state => [...state, item]);
 
         updateCurrentDay();

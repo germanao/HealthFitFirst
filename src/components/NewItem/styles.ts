@@ -9,13 +9,13 @@ export const Container = styled.View`
 `
 
 export const FormContainer = styled.View`
-    margin-top: 60px;
-    min-height: ${Dimensions.get('window').height * 0.5}px; //Issue https://github.com/jeremybarbet/react-native-modalize/issues/455
+    margin: 20px 15px;
+    padding: 20px;
 `
 
 export const ButtonContainer = styled.View`
     width: 100%;
-    margin-bottom: 20px;
+    margin-top: 20px;
 `
 
 export const ItensTitle = styled.Text`
