@@ -40,6 +40,18 @@ const DataLocalContext = createContext<DataProviderData>({} as DataProviderData)
         updateCurrentDay();
       };    
 
+    const removeItem = (id: string) => {
+        setListAllItens(state => state.filter(item => item.id !== id))
+    }
+
+    const updateItem = (item: Item) => {
+        setListAllItens(state => state.map(itemState => {
+            if(itemState.id === item.id) return item
+            
+            return itemState
+        }))
+    }
+
     const updateCurrentDay = () => {
         if(listAllItens){
             const filteredList = listAllItens.filter(item => filterIsToday(item.date, currentDate))
@@ -63,6 +75,8 @@ const DataLocalContext = createContext<DataProviderData>({} as DataProviderData)
                      currentKcal, 
                      currentList, 
                      addItem,
+                     removeItem,
+                     updateItem,
                      handleChangeData}}>
             {children}
         </DataLocalContext.Provider>

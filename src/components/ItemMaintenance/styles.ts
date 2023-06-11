@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
 import { Colors } from '../../helpers/constants'
-import { Dimensions } from 'react-native'
 
 export const Container = styled.View`
     flex: 1; 

@@ -13,8 +13,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Modalize } from 'react-native-modalize';
 
-const NewItem = () => {
-  const { addItem, currentDate, currentList } = useDataLocal();
+const ItemMaintenance = () => {
+  const { addItem, removeItem, updateItem, currentDate, currentList } = useDataLocal();
   
   const navigation = useNavigation();
 
@@ -82,7 +82,7 @@ const NewItem = () => {
             <ItemList 
             item={item} 
             options={[
-            <TouchableOpacity onPress={() => console.log("delete")}>
+            <TouchableOpacity onPress={() => removeItem(item.id)}>
             <MaterialCommunityIcons
               name="delete-outline"
               size={30}
@@ -112,4 +112,4 @@ const NewItem = () => {
   );
 };
 
-export default NewItem;
+export default ItemMaintenance;

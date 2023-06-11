@@ -3,7 +3,7 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from '../pages/Home'
-import NewItem from '../components/NewItem'
+import ItemMaintenance from '../components/ItemMaintenance'
 import { Colors } from '../helpers/constants'
 
 const Stack = createStackNavigator()
@@ -28,7 +28,7 @@ const Routes: React.FC = () => {
                     options={{headerShown: false}}/>
                 <Stack.Screen 
                     name="NewItem" 
-                    component={NewItem} 
+                    component={ItemMaintenance} 
                     options={{title: "Novo Item"}}/>
             </Stack.Navigator>
         </NavigationContainer>
