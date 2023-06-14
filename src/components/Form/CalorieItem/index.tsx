@@ -14,6 +14,7 @@ type CalorieItemFormProps = {
 };
 
 const CalorieItemForm: React.FC<CalorieItemFormProps> = ({ onSubmit, defaultValues }) => {
+  const isEditing = defaultValues?.id ? true : false;
 
   const { control, handleSubmit, formState: { errors } } = useForm<CalorieItemData>({
     resolver: yupResolver(validationSchema),
@@ -21,6 +22,7 @@ const CalorieItemForm: React.FC<CalorieItemFormProps> = ({ onSubmit, defaultValu
       id: defaultValues?.id,
       description: defaultValues?.name,
       amount: defaultValues?.kcal?.toString(),
+      date: defaultValues?.date
     }
   });
 
@@ -63,7 +65,7 @@ const CalorieItemForm: React.FC<CalorieItemFormProps> = ({ onSubmit, defaultValu
         )}
       />
       <View style={{ height: 20 }} />
-      <Button title="Adicionar item" onPress={handleSubmit(onSubmit)} />
+      <Button title={isEditing ? "Alterar item" : "Adicionar item"} onPress={handleSubmit(onSubmit)} />
     </View>
   );
 };

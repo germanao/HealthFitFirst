@@ -24,29 +24,36 @@ const ItemMaintenance = () => {
   const modalizeRef = useRef<Modalize>(null);
 
   const onOpen = () => {
+    setItemToUpdate({} as Item);
     modalizeRef.current?.open();
   };
 
   const onClose = () => {
     modalizeRef.current?.close();
+
   };
 
   const handleOnSave = (data: CalorieItemData) => {
 
-    addItem({ id: data?.id,
-              name: data.description,
-              kcal: Number(data.amount),
-              date: data?.date
-    })
-
+    if(data.id){
+      updateItem({ id: data.id,
+        name: data.description,
+        kcal: Number(data.amount),
+        date: data.date
+      })
+    }else{
+      addItem({ 
+        name: data.description,
+        kcal: Number(data.amount),
+      })
+    }
+    
     onClose();
   };
 
   const handleUpdateItem = (item: Item) => {
     onOpen();
-    setItemToUpdate(item)
-    console.log(item)
-    // updateItem(item);
+    setItemToUpdate(item ?? {} as Item)
   };
 
   return (

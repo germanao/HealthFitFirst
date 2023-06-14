@@ -1,5 +1,5 @@
 import moment, {MomentInput} from 'moment';
-import React, {createContext, useContext, useState, useEffect} from 'react';
+import React, {createContext, useContext, useState, useEffect, useCallback} from 'react';
 import { DataProviderData, Item, ItemData } from '../types';
 import { filterIsToday, generateUniqueId, getLocalStorage, setLocalStorage } from '../helpers';
 
@@ -36,21 +36,13 @@ const DataLocalContext = createContext<DataProviderData>({} as DataProviderData)
 
     const addItem = (item: ItemData) => {
         const newItem: Item = {
-            id: item?.id || generateUniqueId(),
-            name : item.name,
+            id: generateUniqueId(),
+            name: item.name,
             kcal: item.kcal,
-            date: item?.date || currentDate
+            date: currentDate
         }
 
-        if(!item?.id){
-            setListAllItens(state => [...state, newItem]);
-        }else{
-            const index = listAllItens.findIndex(item => item.id === newItem.id)
-            const newList = [...listAllItens]
-            newList[index] = newItem
-            setListAllItens(newList);
-        }
-
+        setListAllItens(state => [...state, newItem]);
         updateCurrentDay();
       };    
 
@@ -59,17 +51,15 @@ const DataLocalContext = createContext<DataProviderData>({} as DataProviderData)
     }
 
     const updateItem = (item: Item) => {
-        setListAllItens(state => state.map(itemState => {
-            if(itemState.id === item.id) return item
-            
-            return itemState
-        }))
+        const index = listAllItens.findIndex(element => element.id === item.id)
+        const newList = [...listAllItens]
+        newList[index] = item
+        setListAllItens(newList);
     }
 
-    const updateCurrentDay = () => {
+    const updateCurrentDay = useCallback(() => {
         if(listAllItens){
             const filteredList = listAllItens.filter(item => filterIsToday(item.date, currentDate))
-            console.log(filteredList)
             const countKcal = filteredList.reduce((acc, item) => {
                 return acc + item.kcal
             },0)
@@ -77,11 +67,11 @@ const DataLocalContext = createContext<DataProviderData>({} as DataProviderData)
             setCurrentList(filteredList)
             setCurrentKcal(countKcal)
         }
-    }
+    }, [listAllItens, currentDate])
 
-    const handleChangeData = async (date: MomentInput) => {
+    const handleChangeData = useCallback( async (date: MomentInput) => {
         setCurrentDate(date)
-    }
+    }, [])
 
     return (
         <DataLocalContext.Provider 
