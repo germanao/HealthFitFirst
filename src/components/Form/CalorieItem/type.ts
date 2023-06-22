@@ -1,8 +1,8 @@
-import { MomentInput } from "moment";
+import { MomentInput } from 'moment'
 
 export type CalorieItemData = {
-    id?: string;
-    description: string;
-    amount: string;
-    date: MomentInput;
-  };
+  id?: string
+  description: string
+  amount: string
+  date: MomentInput
+}

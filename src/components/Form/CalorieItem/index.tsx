@@ -1,30 +1,34 @@
-import React from 'react';
-import { View, Button } from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { validationSchema } from './validationSchema';
-import { CalorieItemData } from './type';
-import { Input } from 'react-native-elements';
-import NumericInput from '../NumericInput';
-import { Item } from '../../../types';
+import React from 'react'
+import { View, Button } from 'react-native'
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { validationSchema } from './validationSchema'
+import { CalorieItemData } from './type'
+import { Input } from 'react-native-elements'
+import NumericInput from '../NumericInput'
+import { Item } from '../../../types'
 
 type CalorieItemFormProps = {
-  onSubmit: (data: CalorieItemData) => void;
-  defaultValues?: Item;
-};
+  onSubmit: (data: CalorieItemData) => void
+  defaultValues?: Item
+}
 
 const CalorieItemForm: React.FC<CalorieItemFormProps> = ({ onSubmit, defaultValues }) => {
-  const isEditing = defaultValues?.id ? true : false;
+  const isEditing = defaultValues?.id ? true : false
 
-  const { control, handleSubmit, formState: { errors } } = useForm<CalorieItemData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CalorieItemData>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
       id: defaultValues?.id,
       description: defaultValues?.name,
       amount: defaultValues?.kcal?.toString(),
-      date: defaultValues?.date
-    }
-  });
+      date: defaultValues?.date,
+    },
+  })
 
   return (
     <View>
@@ -65,9 +69,12 @@ const CalorieItemForm: React.FC<CalorieItemFormProps> = ({ onSubmit, defaultValu
         )}
       />
       <View style={{ height: 20 }} />
-      <Button title={isEditing ? "Alterar item" : "Adicionar item"} onPress={handleSubmit(onSubmit)} />
+      <Button
+        title={isEditing ? 'Alterar item' : 'Adicionar item'}
+        onPress={handleSubmit(onSubmit)}
+      />
     </View>
-  );
-};
+  )
+}
 
-export default CalorieItemForm;
+export default CalorieItemForm

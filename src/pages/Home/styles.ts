@@ -1,50 +1,50 @@
-import styled from 'styled-components/native';
-import { Colors } from '../../helpers/constants';
+import styled from 'styled-components/native'
+import { Colors } from '../../helpers/constants'
 
 export const Container = styled.View`
-    flex: 1;
-    background-color: ${Colors.primary};
-    padding-top: 32px;
+  flex: 1;
+  background-color: ${Colors.primary};
+  padding-top: 32px;
 
-    position: relative;
+  position: relative;
 `
 
 export const HeaderContainer = styled.View`
-    flex: 1;
-    max-height: 240px;
-    background-color: ${Colors.primary};
-    align-content: center;
+  flex: 1;
+  max-height: 240px;
+  background-color: ${Colors.primary};
+  align-content: center;
 `
 
 export const HeaderTitle = styled.Text`
-    font-size: 18px;
-    line-height: 21px;
-    color: #FFFFFF;
-    text-align: center;
-    margin-top: 20px;
+  font-size: 18px;
+  line-height: 21px;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 20px;
 `
 
 export const HeaderContainerHighlight = styled.View`
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-end;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
 `
 export const HeaderTextCounterHighlight = styled.Text`
-    font-size: 68px;
-    line-height: 80px;
-    color: #FFFFFF;
+  font-size: 68px;
+  line-height: 80px;
+  color: #ffffff;
 `
 
 export const HeaderTextHighlight = styled.Text`
-    font-size: 18px;
-    line-height: 21px;
-    color: #FFFFFF;
+  font-size: 18px;
+  line-height: 21px;
+  color: #ffffff;
 `
 
 export const BodyContainer = styled.View`
-    flex: 2;
-    background-color: #FFFFFF;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    padding: 10px 20px;    
+  flex: 2;
+  background-color: #ffffff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 10px 20px;
 `

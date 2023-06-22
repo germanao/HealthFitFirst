@@ -1,60 +1,59 @@
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Input } from "react-native-elements";
-import { generateUniqueId } from "../../helpers";
-import { useNavigation } from "@react-navigation/native";
+import moment from 'moment'
+import React, { useEffect, useRef, useState } from 'react'
+import { Button, Input } from 'react-native-elements'
+import { generateUniqueId } from '../../helpers'
+import { useNavigation } from '@react-navigation/native'
 
-import { Container, FormContainer, ButtonContainer, ItensTitle, Divider } from "./styles";
-import { useDataLocal } from "../../hooks/data";
-import { FlatList, TouchableOpacity, Text, View, ScrollView } from "react-native";
-import ItemList from "../ItemList";
-import { Colors } from "../../helpers/constants";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Container, FormContainer, ButtonContainer, ItensTitle, Divider } from './styles'
+import { useDataLocal } from '../../hooks/data'
+import { FlatList, TouchableOpacity, Text, View, ScrollView } from 'react-native'
+import ItemList from '../ItemList'
+import { Colors } from '../../helpers/constants'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-import { Modalize } from 'react-native-modalize';
-import CalorieItemForm from "../Form/CalorieItem";
-import { CalorieItemData } from "../Form/CalorieItem/type";
-import { Item } from "../../types";
+import { Modalize } from 'react-native-modalize'
+import CalorieItemForm from '../Form/CalorieItem'
+import { CalorieItemData } from '../Form/CalorieItem/type'
+import { Item } from '../../types'
 
 const ItemMaintenance = () => {
-  const { addItem, removeItem, updateItem, currentDate, currentList } = useDataLocal();
-  
-  const [itemToUpdate, setItemToUpdate] = useState<Item>({} as Item);
+  const { addItem, removeItem, updateItem, currentDate, currentList } = useDataLocal()
 
-  const modalizeRef = useRef<Modalize>(null);
+  const [itemToUpdate, setItemToUpdate] = useState<Item>({} as Item)
+
+  const modalizeRef = useRef<Modalize>(null)
 
   const onOpen = () => {
-    setItemToUpdate({} as Item);
-    modalizeRef.current?.open();
-  };
+    setItemToUpdate({} as Item)
+    modalizeRef.current?.open()
+  }
 
   const onClose = () => {
-    modalizeRef.current?.close();
-
-  };
+    modalizeRef.current?.close()
+  }
 
   const handleOnSave = (data: CalorieItemData) => {
-
-    if(data.id){
-      updateItem({ id: data.id,
+    if (data.id) {
+      updateItem({
+        id: data.id,
         name: data.description,
         kcal: Number(data.amount),
-        date: data.date
+        date: data.date,
       })
-    }else{
-      addItem({ 
+    } else {
+      addItem({
         name: data.description,
         kcal: Number(data.amount),
       })
     }
-    
-    onClose();
-  };
+
+    onClose()
+  }
 
   const handleUpdateItem = (item: Item) => {
-    onOpen();
-    setItemToUpdate(item ?? {} as Item)
-  };
+    onOpen()
+    setItemToUpdate(item ?? ({} as Item))
+  }
 
   return (
     <>
@@ -62,49 +61,41 @@ const ItemMaintenance = () => {
         ref={modalizeRef}
         disableScrollIfPossible={false}
         adjustToContentHeight={true} //Issue https://github.com/jeremybarbet/react-native-modalize/issues/455
-        scrollViewProps={{ keyboardShouldPersistTaps: "handled" }}
+        scrollViewProps={{ keyboardShouldPersistTaps: 'handled' }}
       >
         <FormContainer>
-          <CalorieItemForm onSubmit={handleOnSave} defaultValues={itemToUpdate}/>
+          <CalorieItemForm onSubmit={handleOnSave} defaultValues={itemToUpdate} />
         </FormContainer>
       </Modalize>
 
       <Container>
         <ItensTitle>Itens do dia</ItensTitle>
         <FlatList
-            data={currentList}
-            keyExtractor={item => item.id}
-            renderItem={({item}) => 
-            <ItemList 
-            item={item} 
-            options={[
-            <TouchableOpacity onPress={() => removeItem(item.id)}>
-            <MaterialCommunityIcons
-              name="delete-outline"
-              size={30}
-              color={Colors.red}
-              />
-            </TouchableOpacity>, 
-            
-            <TouchableOpacity onPress={() => handleUpdateItem(item)}>
-            <MaterialCommunityIcons
-              name="pencil-outline"
-              size={30}
-              color={Colors.primary}
-              />
-            </TouchableOpacity>
+          data={currentList}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <ItemList
+              item={item}
+              options={[
+                <TouchableOpacity key={item.id} onPress={() => removeItem(item.id)}>
+                  <MaterialCommunityIcons name="delete-outline" size={30} color={Colors.red} />
+                </TouchableOpacity>,
+
+                <TouchableOpacity key={item.id} onPress={() => handleUpdateItem(item)}>
+                  <MaterialCommunityIcons name="pencil-outline" size={30} color={Colors.primary} />
+                </TouchableOpacity>,
               ]}
-              />}
-              />
+            />
+          )}
+        />
         <Divider />
 
-        
         <ButtonContainer>
           <Button title="Adicionar calorias ingeridas" onPress={onOpen} />
         </ButtonContainer>
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default ItemMaintenance;
+export default ItemMaintenance

@@ -1,42 +1,44 @@
-import React from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React from 'react'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-import { Item } from "../../types";
+import { Item } from '../../types'
 
 interface ItemProps {
-  item: Item;
-  options?: React.ReactNode[];
+  item: Item
+  options?: React.ReactNode[]
 }
 
-import { Container, IconContainer, InfoContainer, Title, Kcal, OptionIcon, ContainerOptions } from "./style";
-import { Colors } from "../../helpers/constants";
-import { View } from "react-native";
+import {
+  Container,
+  IconContainer,
+  InfoContainer,
+  Title,
+  Kcal,
+  OptionIcon,
+  ContainerOptions,
+} from './style'
+import { Colors } from '../../helpers/constants'
+import { View } from 'react-native'
 
 const ItemList: React.FC<ItemProps> = ({ item, options }) => {
   return (
     <Container>
       <IconContainer>
-        <MaterialCommunityIcons
-          name="food-fork-drink"
-          size={30}
-          color={Colors.primary}
-        />
+        <MaterialCommunityIcons name="food-fork-drink" size={30} color={Colors.primary} />
       </IconContainer>
       <InfoContainer>
         <Title>{item.name}</Title>
         <Kcal>{item.kcal} kcal</Kcal>
       </InfoContainer>
-      {options && 
+      {options && (
         <ContainerOptions>
           {options.map((option, index) => (
-            <OptionIcon key={index}>
-              {option}
-            </OptionIcon>
+            <OptionIcon key={index}>{option}</OptionIcon>
           ))}
         </ContainerOptions>
-      }
+      )}
     </Container>
-  );
-};
+  )
+}
 
-export default ItemList;
+export default ItemList

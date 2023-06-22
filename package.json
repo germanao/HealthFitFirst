@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "lint": "eslint --ext .tsx --ext .ts src/"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
@@ -36,6 +37,13 @@
     "@babel/core": "^7.20.0",
     "@types/react": "~18.0.14",
     "@types/styled-components-react-native": "^5.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "eslint": "^8.43.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.8.8",
     "typescript": "^4.9.4"
   },
   "private": true
