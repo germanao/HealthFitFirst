@@ -27,7 +27,7 @@ const Home: React.FC = () => {
 
   const handleNewItem = useCallback(() => {
     navigation.navigate('NewItem')
-  }, [])
+  }, [navigation])
 
   return (
     <Container>

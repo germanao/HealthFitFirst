@@ -16,34 +16,30 @@ export const DataLocalProvider: React.FC<DataLocalProviderProps> = ({ children }
   const [currentList, setCurrentList] = useState([] as Item[])
   const [listAllItens, setListAllItens] = useState([] as Item[])
 
-  useEffect(() => {
-    getStorageData()
-  }, [])
-
-  useEffect(() => {
-    updateCurrentDay()
-  }, [currentDate, listAllItens])
-
-  useEffect(() => {
-    setLocalStorage(listAllItens) //This isn't performant, but it's ok for now
-  }, [listAllItens])
-
   const getStorageData = async () => {
     const res = await getLocalStorage()
     setListAllItens(res)
   }
 
-  const addItem = (item: ItemData) => {
-    const newItem: Item = {
-      id: generateUniqueId(),
-      name: item.name,
-      kcal: item.kcal,
-      date: currentDate,
-    }
+  const updateCurrentDay = useCallback(() => {
+    if (listAllItens)
+      setCurrentList(listAllItens.filter(item => filterIsToday(item.date, currentDate)))
+  }, [listAllItens, currentDate])
 
-    setListAllItens(state => [...state, newItem])
-    updateCurrentDay()
-  }
+  const addItem = useCallback(
+    (item: ItemData) => {
+      const newItem: Item = {
+        id: generateUniqueId(),
+        name: item.name,
+        kcal: item.kcal,
+        date: currentDate,
+      }
+
+      setListAllItens(state => [...state, newItem])
+      updateCurrentDay()
+    },
+    [currentDate, updateCurrentDay],
+  )
 
   const removeItem = (id: string) => {
     setListAllItens(state => state.filter(item => item.id !== id))
@@ -56,21 +52,33 @@ export const DataLocalProvider: React.FC<DataLocalProviderProps> = ({ children }
     setListAllItens(newList)
   }
 
-  const updateCurrentDay = useCallback(() => {
+  const updateKcal = useCallback(() => {
     if (listAllItens) {
       const filteredList = listAllItens.filter(item => filterIsToday(item.date, currentDate))
       const countKcal = filteredList.reduce((acc, item) => {
         return acc + item.kcal
       }, 0)
 
-      setCurrentList(filteredList)
       setCurrentKcal(countKcal)
     }
-  }, [listAllItens, currentDate])
+  }, [currentDate, listAllItens])
 
   const handleChangeData = useCallback(async (date: MomentInput) => {
     setCurrentDate(date)
   }, [])
+
+  useEffect(() => {
+    getStorageData()
+  }, [])
+
+  useEffect(() => {
+    updateCurrentDay()
+  }, [currentDate, listAllItens, updateCurrentDay])
+
+  useEffect(() => {
+    setLocalStorage(listAllItens) //This isn't performant, but it's ok for now
+    updateKcal()
+  }, [listAllItens, updateKcal])
 
   return (
     <DataLocalContext.Provider
